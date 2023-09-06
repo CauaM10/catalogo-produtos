@@ -1,19 +1,12 @@
-import { Box, Button, Checkbox, Container, FormControl, FormControlLabel, Grid, TextField, Typography } from '@mui/material'
+import { Alert, Box, Button, Checkbox, Container, FormControl, FormControlLabel, Grid, TextField, Typography } from '@mui/material'
 import React from 'react'
-import { createTheme, ThemeProvider} from '@mui/material/styles'
+
 import { useState, useEffect } from 'react';
 import { useNavigate, json } from 'react-router-dom';
 
     
 
-    const theme = createTheme({
-        palette: {
-            mode: 'light',
-            primary: {
-              main: '#f50057',
-            },
-          },
-    });
+
 
 function Login() {
 
@@ -36,7 +29,7 @@ function Login() {
     
     function Autenticar(evento){
         evento.preventDefault();
-        fetch( "https://api.escuelajs.co/api/v1/auth/login", {
+        fetch( "http://10.139.75.32:8080/login", {
             method: "POST",
             headers:
             {
@@ -45,25 +38,28 @@ function Login() {
             body: JSON.stringify(
                 {
                     email : email,
-                    password: senha
+                    senha: senha
                 }
             )
         } )
         .then( ( resposta ) => resposta.json() ) 
         .then( ( json ) => {
-            if( json.statusCode === 401 ){
-                setErro( true );
+            if( json.user){
+                setLogin( true );
             }
             else{
-                setLogin ( true );
+                setErro ( true );
             }
         }  )
         .catch( (erro) => { setErro( true )} )
     }
   return (
-        <ThemeProvider theme={theme}>
-    
+        
+
+        /* Container: Este componente é usado para envolver os outros componentes e fornecer uma largura máxima de xs. */
         <Container component="section" maxWidth="xs">
+
+            {/* Box: Este componente é usado para criar uma caixa com uma cor de fundo específica, preenchimento e raio de borda. A propriedade sx é usada para definir o estilo da caixa. */}
             <Box sx={{mt:10,
             backgroundColor:"#D9D9D9",
             padding:"50px",
@@ -72,15 +68,23 @@ function Login() {
             flexDirection: "column",
             alignItems:"center"
             }}>
+                {/* Typography: Este componente é usado para estilizar texto. A propriedade variant é definida como h5 para indicar que o texto deve ser um cabeçalho de tamanho 5. */}
                 <Typography component="h1" variant='h5'>Entrar</Typography>
+
+                {/* Alert: Este componente é usado para exibir uma mensagem de erro ao usuário. A propriedade severity é definida como warning para indicar que o erro não é crítico. */}
+                { erro && ( <Alert severity="warning" sx={{mt: 2,}} >Revise seus dados e tente novamente</Alert>)}
+
                 <Box component="form" onSubmit={Autenticar}>
+                    {/* TextField: Este componente é usado para criar um campo de texto. A propriedade type é definida como email para indicar que o campo de texto é para inserir um endereço de e-mail. A propriedade variant é definida como filled para dar ao campo de texto uma aparência preenchida. */}
                     <TextField type='email'
                     label="Email"
                     variant='filled' 
                     margin='normal'
                     value={email} 
                     onChange={(e) => setEmail ( e.target.value )}
-                    fullWidth  />
+                    fullWidth 
+                    {...erro && ("error") }
+                    />
                     <TextField type='password'
                      label="Senha" 
                      variant='filled' 
@@ -88,8 +92,14 @@ function Login() {
                      value={senha} 
                      onChange={(e) => setSenha ( e.target.value )} 
                      fullWidth  />
+
+                    {/* Checkbox: Este componente é usado para criar uma caixa de seleção. A propriedade value é definida como o valor da caixa de seleção. A propriedade onChange é usada para lidar com o evento de mudança da caixa de seleção. */}
                     <FormControlLabel control={ <Checkbox value= "lembrar" onChange={(e) => setLembrar ( !lembrar )} />} label="lembrar-me" />
+
+                    {/* Button: Este componente é usado para criar um botão. A propriedade type é definida como submit para indicar que o botão enviará o formulário. A propriedade variant é definida como contained para dar ao botão uma aparência preenchida. */} 
                     <Button type='submit' variant='contained' fullWidth sx={{mt:2 , mb: 2}} >Login</Button>
+
+                    {/* Grid: Este componente é usado para criar uma grade de itens flexíveis. A propriedade container é definida como true para indicar que a grade deve ser um contêiner. A propriedade item é usada para especificar o item flexível. */}
                     <Grid container>
                         <Grid item xs>
                             Esqueci minha senha
@@ -101,7 +111,7 @@ function Login() {
                 </Box>
             </Box>
         </Container>
-        </ThemeProvider>
+        
         
     
 
