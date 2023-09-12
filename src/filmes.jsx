@@ -7,6 +7,8 @@ import { useState, useEffect } from 'react';
 
 function Filmes() {
 
+  
+
     const [titulo, setTitulo] = useState ( "" );
     const [descriçao, setDes] = useState ( "" );
     const [ano, setAno] = useState ( "" );
@@ -18,7 +20,7 @@ function Filmes() {
 
     function Enviar( evento ){
         evento.preventDefault();
-        fetch( "http://10.139.75.32:8080/filmes", {
+        fetch( process.env.REACT_APP_BACKEND + "filmes", {
             method: "POST",
             headers:
             {
@@ -39,11 +41,11 @@ function Filmes() {
         .then( ( json ) => {
 
             if( json._id ){
-                setEnviar( true );
-                setErro (false);
+                setEnviar(true);
+                setErro ( false );
             } else{
-                setErro( true );
-                setEnviar(false);
+                setErro(true);
+                setEnviar( false );
             }
             
         }  )
@@ -95,7 +97,7 @@ function Filmes() {
                 onChange={(e) => setDes ( e.target.value )} 
                 fullWidth 
                 />
-                <TextField  type='date'
+                <TextField  type='number'
                 label="Ano"
                 variant='filled' 
                 margin='normal'
@@ -103,7 +105,7 @@ function Filmes() {
                 onChange={(e) => setAno ( e.target.value )}
                 fullWidth 
                 />
-                <TextField type='time'
+                <TextField type='text'
                 label="Duraçao"
                 variant='filled' 
                 margin='normal'
@@ -120,7 +122,7 @@ function Filmes() {
                 fullWidth  
                 />
                 <TextField type='url'
-                label="Imagem" 
+                label="Url da Imagem" 
                 variant='filled' 
                 margin='normal'
                 value={img}
