@@ -121,7 +121,7 @@ function Filmes() {
                 onChange={(e) => setCat ( e.target.value )} 
                 fullWidth  
                 />
-                <TextField type='url'
+                <TextField type='text'
                 label="Url da Imagem" 
                 variant='filled' 
                 margin='normal'
