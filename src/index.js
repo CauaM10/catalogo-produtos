@@ -5,14 +5,16 @@ import Login from './login';
 import { createTheme, ThemeProvider} from '@mui/material/styles'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Cadastro from './Cadastro'
-import Filmes from './filmes'
-import Edicao from './EditaFilme'
+import Camisetas from './CadastroCamiseta'
+import Edicao from './Edita'
 
 const theme = createTheme({
   palette: {
       mode: 'light',
       primary: {
-        main: '#f50057',
+        main: '#000',
+        
+
       },
     },
 });
@@ -32,8 +34,8 @@ const router = createBrowserRouter([{
     element: <Cadastro/>
   },
   {
-    path: "/filmes",
-    element: <Filmes/>
+    path: "/CadastroCamiseta",
+    element: <Camisetas/>
   },
   {
   path: "/edicao/:id",

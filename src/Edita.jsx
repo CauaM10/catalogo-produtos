@@ -20,7 +20,8 @@ function EditaFilme() {
 
 
     useEffect(() => {
-        fetch(process.env.REACT_APP_BACKEND + "filmes/" + id, {
+        const usuario = localStorage.getItem( "usuario" )
+        fetch(process.env.REACT_APP_BACKEND + "produtos/" + usuario + "/" + id, {
             method: "GET",
             headers:
             {
@@ -53,7 +54,7 @@ function EditaFilme() {
 
     function Editar ( evento ){
         evento.preventDefault();
-        fetch( process.env.REACT_APP_BACKEND + "filmes", {
+        fetch( process.env.REACT_APP_BACKEND + "produtos", {
             method: "PUT",
             headers:
             {
@@ -63,11 +64,13 @@ function EditaFilme() {
                 {   
                     id : id,
                     titulo : titulo,
-                    descriçao : descricao,
+                    descricao : descricao,
                     ano : ano,
-                    duraçao : duracao,
+                    duracao : duracao,
                     categoria : categoria, 
-                    img : imagem
+                    imagem : imagem,
+                    usuario: localStorage.getItem( "usuario" )
+
                 }
             )
         })
@@ -100,7 +103,7 @@ function EditaFilme() {
                 flexDirection: "column",
                 alignItems: "center"
             }}>
-                <Typography component="h1" variant='h4'> Editar Filme</Typography>
+                <Typography component="h1" variant='h4'> Editar Camiseta</Typography>
                 {erro && (<Alert severity="warning" sx={{mt: 2, mb:2}} >Filme não encontrado</Alert>)}
                 {editar && (<Alert severity="success" sx={{mt: 2, mb:2}} >Editado com sucesso</Alert>)}   
                 <Box component="form" onSubmit={Editar} >

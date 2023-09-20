@@ -1,7 +1,10 @@
 
 import { useEffect, useState } from "react";
-import Filme from "./components/Filme";
-import { Container } from "@mui/material";
+import Filme from "./components/CardCamiseta";
+import { Container} from "@mui/material";
+import MenuResponsivo from "./components/MenuResponsivo";
+
+
 
 
 function App() {
@@ -9,10 +12,11 @@ function App() {
   const [filmes, setFilmes] = useState();
   const [erro, setErro] = useState();
 
-
-
   useEffect(() => {
-    fetch(process.env.REACT_APP_BACKEND + "filmes", {
+
+    const usuario = localStorage.getItem( "usuario" );
+
+    fetch(process.env.REACT_APP_BACKEND + "produtos/" + usuario, {
       method: "GET",
       headers:
       {
@@ -26,7 +30,7 @@ function App() {
 
   function Excluir(evento, id) {
     evento.preventDefault();
-    fetch(process.env.REACT_APP_BACKEND + "filmes", {
+    fetch(process.env.REACT_APP_BACKEND + "produtos", {
       method: "DELETE",
       headers:
       {
@@ -34,7 +38,8 @@ function App() {
       },
       body: JSON.stringify(
         {
-          id: id
+          id: id,
+          usuario: localStorage.getItem("usuario")
         }
       )
     })
@@ -49,11 +54,14 @@ function App() {
 
   return (
     <>
-      <h1>Filmes</h1>
+
+      <MenuResponsivo></MenuResponsivo>
+   
       <Container sx={{
         display: "flex",
         flexFlow: "row",
-        flexWrap: "wrap"
+        flexWrap: "wrap",
+        
       }}>
 
         {filmes && (

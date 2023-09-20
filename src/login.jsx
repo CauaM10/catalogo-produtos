@@ -3,6 +3,7 @@ import React from 'react'
 
 import { useState, useEffect } from 'react';
 import { useNavigate, json } from 'react-router-dom';
+import MenuResponsivo from './components/MenuResponsivo'
 
     
 
@@ -20,7 +21,6 @@ function Login() {
 
     useEffect ( () => {
         if(login){
-            localStorage.setItem("usuario" , JSON.stringify ({email: email}));
             setEmail("");
             setSenha("");
             navigate("/");
@@ -45,9 +45,11 @@ function Login() {
         .then( ( resposta ) => resposta.json() ) 
         .then( ( json ) => {
             if( json.user){
+                localStorage.setItem ("usuario" , JSON.stringify( json.user._id ) );
                 setLogin( true );
             }
             else{
+                localStorage.removeItem ("usuario");
                 setErro ( true );
             }
         }  )
@@ -55,12 +57,13 @@ function Login() {
     }
   return (
         
-
-        /* Container: Este componente é usado para envolver os outros componentes e fornecer uma largura máxima de xs. */
+        <>
+        <MenuResponsivo></MenuResponsivo>
+        <header className='header-menu'></header>
         <Container component="section" maxWidth="xs">
 
             {/* Box: Este componente é usado para criar uma caixa com uma cor de fundo específica, preenchimento e raio de borda. A propriedade sx é usada para definir o estilo da caixa. */}
-            <Box sx={{mt:10,
+            <Box sx={{mt: 25,
             backgroundColor:"#D9D9D9",
             padding:"50px",
             borderRadius:"10px",
@@ -112,7 +115,7 @@ function Login() {
             </Box>
         </Container>
         
-        
+        </>    
     
 
   )

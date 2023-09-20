@@ -1,6 +1,7 @@
 import { Alert, Box, Button, Checkbox, Container, FormControl, FormControlLabel, Grid, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useState, useEffect } from 'react';
+import MenuResponsivo from './components/MenuResponsivo';
 
 
 
@@ -10,17 +11,17 @@ function Filmes() {
   
 
     const [titulo, setTitulo] = useState ( "" );
-    const [descriçao, setDes] = useState ( "" );
+    const [descricao, setDes] = useState ( "" );
     const [ano, setAno] = useState ( "" );
-    const [duraçao, setDur] = useState ( "" );
+    const [duracao, setDur] = useState ( "" );
     const [categoria, setCat] = useState ( "" );
-    const [img, setImg] = useState ( "" );
+    const [imagem, setImg] = useState ( "" );
     const [enviar, setEnviar] = useState ( false );
     const [erro, setErro] = useState ( false );
 
     function Enviar( evento ){
         evento.preventDefault();
-        fetch( process.env.REACT_APP_BACKEND + "filmes", {
+        fetch( process.env.REACT_APP_BACKEND + "produtos", {
             method: "POST",
             headers:
             {
@@ -29,11 +30,12 @@ function Filmes() {
             body: JSON.stringify(
                 {
                     titulo : titulo,
-                    descriçao : descriçao,
+                    descricao : descricao,
                     ano : ano,
-                    duraçao : duraçao,
+                    duracao : duracao,
                     categoria : categoria, 
-                    img : img
+                    imagem : imagem,
+                    usuario: localStorage.getItem( "usuario" )
                 }
             )
         })
@@ -67,16 +69,22 @@ function Filmes() {
 
 
   return (
-    <Container component="section" maxWidth="sm">
+    <>
+        <MenuResponsivo ></MenuResponsivo>
+    
+    
+    
+    <Container component="section" maxWidth="xs">
         <Box sx={{mt:10,
             backgroundColor:"#D9D9D9",
             padding:"50px",
             borderRadius:"10px",
             display:"flex",
             flexDirection: "column",
-            alignItems:"center"
+            alignItems:"center",
+            marginTop: "200px"
             }}>
-            <Typography component="h1" variant='h4'>Filmes</Typography>
+            <Typography component="h1" variant='h4'>Camisetas</Typography>
             {erro && (<Alert severity="warning" sx={{mt: 2, mb:2}} >Desculpe tente novamente</Alert>)}
             {enviar && (<Alert severity="success" sx={{mt: 2, mb:2}} >obrigado por se cadastrar</Alert>)}
             <Box component= "form" onSubmit={Enviar}>
@@ -93,7 +101,7 @@ function Filmes() {
                 label="Descriçao" 
                 variant='filled' 
                 margin='normal'
-                value={descriçao}
+                value={descricao}
                 onChange={(e) => setDes ( e.target.value )} 
                 fullWidth 
                 />
@@ -106,10 +114,10 @@ function Filmes() {
                 fullWidth 
                 />
                 <TextField type='text'
-                label="Duraçao"
+                label="Tamanho"
                 variant='filled' 
                 margin='normal'
-                value={duraçao}
+                value={duracao}
                 onChange={(e) => setDur ( e.target.value )}
                 fullWidth 
                 />
@@ -125,7 +133,7 @@ function Filmes() {
                 label="Url da Imagem" 
                 variant='filled' 
                 margin='normal'
-                value={img}
+                value={imagem}
                 onChange={(e) => setImg ( e.target.value )} 
                 fullWidth  
                 />
@@ -136,6 +144,7 @@ function Filmes() {
         </Box>
 
     </Container>
+    </>
   )
 }
 

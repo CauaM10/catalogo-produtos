@@ -1,6 +1,9 @@
 import { Alert, Box, Button, Container, TextField, Typography } from '@mui/material';
 import React from 'react'
 import { useState, useEffect } from 'react';
+import './components/global.css'
+import MenuResponsivo from './components/MenuResponsivo';
+
 
 function Cadastro() {
 
@@ -14,7 +17,7 @@ function Cadastro() {
 
     function Cadastrar( evento ){
         evento.preventDefault();
-        fetch( process.env.REACT_APP_BACKEND + "users", {
+        fetch( process.env.REACT_APP_BACKEND + "usuarios", {
             method: "POST",
             headers:
             {
@@ -26,7 +29,8 @@ function Cadastro() {
                     senha : senha,
                     cpf : cpf,
                     tel : tel,
-                    nome : name
+                    nome : name,
+                    
                 }
             )
         })
@@ -56,12 +60,16 @@ function Cadastro() {
     }, [ cadastro] );
 
   return (
-    <Container component="section" maxWidth="sm">
-        <Box sx={{mt:10,
+    <>
+    
+    <MenuResponsivo></MenuResponsivo>
+    <Container  component="section" maxWidth="xs">
+        <Box sx={{mt:20,
             backgroundColor:"#D9D9D9",
             padding:"50px",
             borderRadius:"10px",
             display:"flex",
+            height: "480px",
             flexDirection: "column",
             alignItems:"center"
             }}>
@@ -111,12 +119,13 @@ function Cadastro() {
                     fullWidth  
                     />
 
-                    <Button type='submit' variant='contained' fullWidth sx={{mt:2 , mb: 2}} >Cadastrar</Button>
+                    <Button type='submit' variant='contained' className='but-cadastrar' fullWidth sx={{mt:2 , mb: 2}} >Cadastrar</Button>
 
                 </Box>
             </Box>
 
     </Container>
+    </>
   )
 }
 
